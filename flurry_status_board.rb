@@ -17,6 +17,7 @@ graphTitle = "" # The title for the graph
 graphType = "line" # Set to 'line' or 'bar'
 hideTotals = false # Set to true if you want to hide totals on the y-axis, false otherwise
 displayTotal = false # Set to true if you want the totals for each metric listed at the end of the graph.
+dateFormat = "%b %-d" # Date format for x-axis. Default format is "Apr 20"
 
 # This array comtains a hash for each Flurry metric you want to track. See API url above.
 metrics = [ { :metric => "ActiveUsers", :title => "Daily Active Users", :color => "green" },
@@ -28,21 +29,6 @@ outputFile = "/Users/rick/Dropbox/Status\ Board/flurry.json"
 ##################################################################
 # Configuration End
 ##################################################################
-
-months = {
-   "1" => "Jan",
-   "2" => "Feb",
-   "3" => "Mar",
-   "4" => "Apr",
-   "5" => "May",
-   "6" => "Jun",
-   "7" => "Jul",
-   "8" => "Aug",
-   "9" => "Sep",
-   "10" => "Oct",
-   "11" => "Nov",
-   "12" => "Dec"
-}
 
 endDate = Date.today - 1
 startDate = (endDate - daysToShow)
@@ -58,7 +44,7 @@ metrics.each do |metric|
    data = []
    days.each do |datapoint|
       date = Date.parse(datapoint["@date"])
-      dateString = "#{months["#{date.month}"]} #{date.day}"
+      dateString = date.strftime(dateFormat)
       value = datapoint["@value"]
       data << { :title => dateString, :value => value }
    end
